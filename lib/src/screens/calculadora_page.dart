@@ -1,14 +1,23 @@
-import 'package:calculadora/src/widgets/boton_calculadora.dart';
-import 'package:calculadora/src/widgets/resultado_principal.dart';
-import 'package:calculadora/src/widgets/resultado_secundario.dart';
-import 'package:calculadora/src/widgets/separador_calculadora.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:calculadora/src/bloc/calculator/calculator_bloc.dart';
+
+import 'package:calculadora/src/widgets/results_labels.dart';
+import 'package:calculadora/src/widgets/boton_calculadora.dart';
+
+
+
 
 /// Pantalla principal de la calculadora 
 class CalculadoraPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Instancia del bloc para comunicar cambios en la app
+    // ignore: close_sinks
+    final calculatorBloc = BlocProvider.of<CalculatorBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Calculadora Page'),
@@ -22,12 +31,8 @@ class CalculadoraPage extends StatelessWidget {
               Expanded(
                 child: Container()
               ),
-              // Montaje en pantalla de los valores de la calculadora
-              ResultadoSecundario(text: '1000',),
-              ResultadoSecundario(text: 'X',),
-              ResultadoSecundario(text: '1000',),
-              SeparadorCalculadora(),
-              ResultadoPrincipal(text: '2000'),
+              // Montaje en pantalla de los valores de la calculadora, valores que se redibujan en un cambio de state
+              ResultsLabels(),
               // Montaje de la primera fila de la calculadora
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +41,7 @@ class CalculadoraPage extends StatelessWidget {
                   BotonCalculadora(
                     text: 'AC',
                     bgColor: Color(0xffA5A5A5), 
-                    onPressed: ()=> print('AC')
+                    onPressed: ()=> calculatorBloc.add(ResetAC())
                   ),
                   BotonCalculadora(
                     text: '+/-',
@@ -61,15 +66,15 @@ class CalculadoraPage extends StatelessWidget {
                 children: [
                   BotonCalculadora( 
                     text: '7',
-                    onPressed: () => print('7'),
+                    onPressed: () => calculatorBloc.add(AddNumber('7')),
                   ),
                   BotonCalculadora( 
                     text: '8',
-                    onPressed: () => print('8'),
+                    onPressed: () => calculatorBloc.add(AddNumber('8')),
                   ),
                   BotonCalculadora( 
                     text: '9',
-                    onPressed: () => print('9'),
+                    onPressed: () => calculatorBloc.add(AddNumber('9')),
                   ),
                   BotonCalculadora( 
                     text: 'X',
