@@ -15,19 +15,34 @@ class ResultsLabels extends StatelessWidget {
     // El blocBuilder estara pendiente de mi state a redibujar valores
     return BlocBuilder<CalculatorBloc, CalculatorState>(
       builder: (context, state) {
+        // Para mostarar el widget condicionado a un state, si no se tienen valores solo mostrar el valor inicial
+        if (state.firstNumber == '0' && state.secondNumber == '0') {
+          return ResultadoPrincipal(
+              text: state.mathResult.endsWith('.0')
+                  ? state.mathResult.substring(0, state.mathResult.length - 2)
+                  : state.mathResult);
+        }
         return Column(
           children: [
             ResultadoSecundario(
-              text: state.firstNumber,
+              text: state.firstNumber.endsWith('.0')
+                  ? state.firstNumber.substring(0, state.firstNumber.length - 2)
+                  : state.firstNumber,
             ),
             ResultadoSecundario(
               text: state.operation,
             ),
             ResultadoSecundario(
-              text: state.secondNumber,
+              text: state.secondNumber.endsWith('.0')
+                  ? state.secondNumber.substring(0, state.secondNumber.length - 2)
+                  : state.secondNumber,
             ),
             SeparadorCalculadora(),
-            ResultadoPrincipal(text: state.mathResult),
+            // Resultado principal con condicionamiento del resultado final
+            ResultadoPrincipal(
+                text: state.mathResult.endsWith('.0')
+                    ? state.mathResult.substring(0, state.mathResult.length - 2)
+                    : state.mathResult),
           ],
         );
       },
