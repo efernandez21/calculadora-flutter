@@ -12,12 +12,14 @@ class ResultadoPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Montaje resultado principal 
+    // Montaje resultado principal, dentro de un fittedBox para que se adapte a la pantalla a medida que aumenten los numeros en el escrito
     return Container(
       margin: EdgeInsets.only( bottom: 20 ),
       width: double.infinity,
       alignment: Alignment.centerRight,
-      child: Text( this.text , style: TextStyle(fontSize: 50 ) ),
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Text( this.text , style: TextStyle(fontSize: 50 ) )),
     );
   }
 }

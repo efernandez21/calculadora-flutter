@@ -1,18 +1,22 @@
-import 'package:calculadora/src/widgets/boton_calculadora.dart';
-import 'package:calculadora/src/widgets/resultado_principal.dart';
-import 'package:calculadora/src/widgets/resultado_secundario.dart';
-import 'package:calculadora/src/widgets/separador_calculadora.dart';
+import 'package:calculadora/src/controllers/calculator_controller.dart';
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import 'package:calculadora/src/widgets/boton_calculadora.dart';
+import 'package:calculadora/src/widgets/math_results.dart';
 
 /// Pantalla principal de la calculadora 
 class CalculadoraPage extends StatelessWidget {
+  // Inyeccion de la dependencia del Get, por lo general lo colocamos donde sera indispensable usarlo a partir de ese lugar de entrada, ademas de crear la instancia tambien la regresa
+  final calculatorCtrl = Get.put(CalculatorController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Calculadora Page'),
-        centerTitle: true,
+        centerTitle: true, 
       ),
       body: SafeArea(
         child: Container(
@@ -23,11 +27,7 @@ class CalculadoraPage extends StatelessWidget {
                 child: Container()
               ),
               // Montaje en pantalla de los valores de la calculadora
-              ResultadoSecundario(text: '1000',),
-              ResultadoSecundario(text: 'X',),
-              ResultadoSecundario(text: '1000',),
-              SeparadorCalculadora(),
-              ResultadoPrincipal(text: '2000'),
+              MathResults(),
               // Montaje de la primera fila de la calculadora
               Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -36,22 +36,22 @@ class CalculadoraPage extends StatelessWidget {
                   BotonCalculadora(
                     text: 'AC',
                     bgColor: Color(0xffA5A5A5), 
-                    onPressed: ()=> print('AC')
+                    onPressed: ()=> calculatorCtrl.resetAll()
                   ),
                   BotonCalculadora(
                     text: '+/-',
                     bgColor: Color(0xffA5A5A5), 
-                    onPressed: ()=> print('+/-')
+                    onPressed: ()=>calculatorCtrl.changeNegativePositive()
                   ),
                   BotonCalculadora(
                     text: 'del',
                     bgColor: Color(0xffA5A5A5), 
-                    onPressed: ()=> print('del')
+                    onPressed: () => calculatorCtrl.deleteLastEntry()
                   ),
                   BotonCalculadora(
                     text: '/',
                     bgColor: Color(0xffF0A23B), 
-                    onPressed: ()=> print('/')
+                    onPressed: ()=> calculatorCtrl.selectOperation('/')
                   ),
                 ],
               ),
@@ -61,20 +61,20 @@ class CalculadoraPage extends StatelessWidget {
                 children: [
                   BotonCalculadora( 
                     text: '7',
-                    onPressed: () => print('7'),
+                    onPressed: () => calculatorCtrl.addNumber('7'),
                   ),
                   BotonCalculadora( 
                     text: '8',
-                    onPressed: () => print('8'),
+                    onPressed: () => calculatorCtrl.addNumber('8'),
                   ),
                   BotonCalculadora( 
                     text: '9',
-                    onPressed: () => print('9'),
+                    onPressed: () => calculatorCtrl.addNumber('9'),
                   ),
                   BotonCalculadora( 
                     text: 'X',
                     bgColor: Color(0xffF0A23B ),
-                    onPressed: () => print('X'),
+                    onPressed: () =>calculatorCtrl.selectOperation('X'),
                   ),
                 ],
               ),
@@ -84,20 +84,20 @@ class CalculadoraPage extends StatelessWidget {
                 children: [
                   BotonCalculadora( 
                     text: '4', 
-                    onPressed: () => print('4'),
+                    onPressed: () => calculatorCtrl.addNumber('4'),
                   ),
                   BotonCalculadora( 
                     text: '5', 
-                    onPressed: () => print('5'),
+                    onPressed: () => calculatorCtrl.addNumber('5'),
                   ),
                   BotonCalculadora( 
                     text: '6', 
-                    onPressed: () => print('6'),
+                    onPressed: () => calculatorCtrl.addNumber('6'),
                   ),
                   BotonCalculadora( 
                     text: '-',
                     bgColor: Color(0xffF0A23B ),
-                    onPressed: () => print('-'),
+                    onPressed: () => calculatorCtrl.selectOperation('-'),
                   ),
                 ],
               ),
@@ -107,20 +107,20 @@ class CalculadoraPage extends StatelessWidget {
                 children: [
                   BotonCalculadora( 
                     text: '1', 
-                    onPressed: () => print('1'),
+                    onPressed: () => calculatorCtrl.addNumber('1'),
                   ),
                   BotonCalculadora( 
                     text: '2', 
-                    onPressed: () => print('2'),
+                    onPressed: () => calculatorCtrl.addNumber('2'),
                   ),
                   BotonCalculadora( 
                     text: '3', 
-                    onPressed: () => print('3'),
+                    onPressed: () => calculatorCtrl.addNumber('3'),
                   ),
                   BotonCalculadora(
                     text: '+',  
                     bgColor: Color(0xffF0A23B ),
-                    onPressed: () => print('+'),
+                    onPressed: () =>calculatorCtrl.selectOperation('+'),
                   ),
                 ],
               ),
@@ -131,16 +131,16 @@ class CalculadoraPage extends StatelessWidget {
                   BotonCalculadora( 
                     text: '0', 
                     big: true,
-                    onPressed: () => print('0'),
+                    onPressed: () => calculatorCtrl.addNumber('0'),
                   ),
                   BotonCalculadora( 
                     text: '.', 
-                    onPressed: () => print('.'),
+                    onPressed: () => calculatorCtrl.addDecimalPoint(),
                   ),
                   BotonCalculadora( 
                     text: '=',
                     bgColor: Color(0xffF0A23B ),
-                    onPressed: () => print('='),
+                    onPressed: () => calculatorCtrl.calculateResult(),
                   ),
                 ],
               ),
